@@ -1,0 +1,7 @@
+{
+    "vscode-pets.position": "panel",
+    "php.stubs": [
+        "*",
+        "uodbc"
+    ]
+}
