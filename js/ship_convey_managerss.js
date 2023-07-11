@@ -7,7 +7,8 @@ function getSelect(table) {
 }
 
 function onQueryShipConvey() {
-  let sr_convey_no = $("#sr-convey-no").val(); 
+  let sr_convey_company = $("#sr-convey-company").val();
+  let sr_convey_no = $("#sr-convey-no").val();
   let sr_convey_name = $("#sr-convey-name").val();
   let sr_convey_status = $("#sr-convey-status").val();
 
@@ -19,13 +20,19 @@ function onQueryShipConvey() {
         "&ConveyName=" +
         sr_convey_name +
         "&ConveyStatus=" +
-        sr_convey_status,
+        sr_convey_status +
+        "&ConveyCompany=" +
+        sr_convey_company,
       method: "GET",
       dataSrc: function (d) {
         return d;
       },
     },
     columns: [
+      {
+        data: "Company",
+        className: "nowrap",
+      },
       {
         data: "Convey_No",
         className: "nowrap",
@@ -103,23 +110,22 @@ function onQueryShipConvey() {
   });
 }
 
-
-
-function printCarConvey(...item) { 
-  const url =  "layout/card_ship_convey.php?action=Ship_Convey&Convey_No=" +
-  item[0] +
-  "&Owner_Name=" +
-  item[1] +
-  "&Owner_Address=" +
-  item[2] +
-  "&Hand_Phone=" +
-  item[3] +
-  "&Year_of_Birth=" +
-  item[4]+
-  "&Type_Convey=" +
-  item[5]+
-  "&Identify_No=" +
-  item[6] ;
+function printCarConvey(...item) {
+  const url =
+    "layout/card_ship_convey.php?action=Ship_Convey&Convey_No=" +
+    item[0] +
+    "&Owner_Name=" +
+    item[1] +
+    "&Owner_Address=" +
+    item[2] +
+    "&Hand_Phone=" +
+    item[3] +
+    "&Year_of_Birth=" +
+    item[4] +
+    "&Type_Convey=" +
+    item[5] +
+    "&Identify_No=" +
+    item[6];
   window.open(url);
   console.log(url);
 }
@@ -127,11 +133,11 @@ function onEditShipConvey() {
   let table = $("#tb-ship-convey").DataTable();
   let row = getSelect(table);
   if (row) {
-    $("#header").html("Chỉnh sửa thông tin phương tiện");
+    $("#header").html("Chỉnh sửa thông tin chủ xe");
     $("#ID").val(row.Convey_No);
     $("#Convey_No").val(row.Convey_No);
     $("#Type_Identify").val(row.Type_Identify);
-    $("#Identify_No").val(row.Identify_No);       
+    $("#Identify_No").val(row.Identify_No);
     $("#Owner_Name").val(row.Owner_Name);
     $("#Year_of_Birth").val(row.Year_of_Birth);
     $("#Owner_Address").val(row.Owner_Address);
@@ -156,10 +162,10 @@ function onAddShipConvey(check) {
   $("#save").attr("check", check);
   $("label.error").hide();
   if ($("#save").attr("check") == 1) {
-    $("#header").html("Thêm thông tin phương tiện");
+    $("#header").html("Thêm thông tin chủ xe");
     $("#modal_add_convey").modal("show");
     $("#create-add-convey")[0].reset();
-  } 
+  }
   $("#create-add-convey").validate({
     onfocusout: false,
     onkeyup: false,

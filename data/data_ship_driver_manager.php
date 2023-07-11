@@ -3,6 +3,7 @@
     session_start();
     $userid = @$_SESSION['Account_ID'];
     $companyss = @$_SESSION['Company'];
+    $position = @$_SESSION['Position'];
     $action = $_REQUEST['action'];
 
     if ($action == 'get_data_company') {
@@ -18,22 +19,33 @@
     }
 
     if ($action == 'get_data_driver') {
+        $sr_ship_driver_company = isset($_GET['Ship_Driver_Company']) ? $_GET['Ship_Driver_Company'] : "";
         $Name = $_GET['Name'];
         $Select = $_GET['Select'];
         $Condition = '1=1';
 
-        if($companyss != '') {
-            $Condition.= " and Company = '$companyss'";
+        // if($companyss != '') {
+        //     $Condition .= " AND Company = '$companyss'";
+        // } else {
+        //     $Condition .= " AND Company = '$sr_ship_driver_company'";
+        // }
+
+        if($position == '1') {
+            if($sr_ship_driver_company != '') {
+                $Condition .= " AND Company = '$sr_ship_driver_company'";
+            }
+        } else {
+            $Condition .= " AND Company = '$companyss'";
         }
 
         if($Name !=''){
-            $Condition .= "AND Driver_Name like '$Name'";
+            $Condition .= "AND Driver_Name like '%$Name%'";
         }
 
         if($Select !=''){
             $Condition .= "AND Driver_Status like '$Select'";
         }
-        $sql_query_driver = "   SELECT Driver_No, Type_Driver, Driver_Name, Year_of_Birth, Driver_Address, 
+        $sql_query_driver = "   SELECT Company, Driver_No, Type_Driver, Driver_Name, Year_of_Birth, Driver_Address, 
                                     Hand_Phone, Driver_Status, Remark, SUBSTRING(Signature, 1, 4000) AS Signature, SUBSTRING(Signature, 4001, 4000) AS Signature1,
                                     SUBSTRING(Signature, 8001, 4000) AS Signature2
                                 FROM   Ship_Driver_Web

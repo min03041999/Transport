@@ -48,6 +48,7 @@
                             SET 
                                 Account_PWD = '$Password',
                                 Company = '$CompanyID',
+                                Account_Name = '$Name',
                                 UserID = '$userid',
                                 UserDate = GETDATE()
                             WHERE Account_ID = '$Hidden'";
@@ -65,6 +66,7 @@
                                     Account_ID = '$Account',
                                     Account_PWD = '$Password',
                                     Company = '$CompanyID',
+                                    Account_Name = '$Name',
                                     UserID = '$userid',
                                     UserDate = GETDATE()
                                 WHERE Account_ID ='$Hidden'";

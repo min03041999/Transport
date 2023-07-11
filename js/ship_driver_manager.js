@@ -35,6 +35,7 @@ $(document).ready(function () {
 });
 
 function onQuery() {
+  let sr_ship_driver_company = $("#sr-ship-driver-company").val();
   let NameDriver = $("#search").val();
   let Select = $("#select_status_ship").val();
   $("#tb_ship_driver_manager").DataTable({
@@ -49,6 +50,7 @@ function onQuery() {
       data: {
         Name: NameDriver,
         Select: Select,
+        Ship_Driver_Company: sr_ship_driver_company,
       },
       dataSrc: function (d) {
         return d;
@@ -56,9 +58,10 @@ function onQuery() {
       },
     },
     columns: [
-      // {
-      //   data: "Company",
-      // },
+      {
+        data: "Company",
+        className: "nowrap",
+      },
       {
         data: "Driver_Name",
         className: "nowrap",

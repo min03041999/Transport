@@ -1,4 +1,8 @@
-<?php require("../header.php"); ?>
+<?php 
+    require("../header.php"); 
+    require('../init.php');
+?>
+
 <style>
 @media only screen and (max-width: 575px) {
     .col-sm-10.col-md-4 {
@@ -39,6 +43,24 @@ canvas {
             <div class="row" style="margin: 30px 0 15px;">
                 <div class="col-md-12 col-xl-10">
                     <div class="row">
+                        <?php if($_SESSION['Position'] == "1") {?>
+                        <div class="col-md-3">
+                            <div class="row" style="align-items: baseline; margin-top: 5px;">
+                                <label class="col-md-6">Công ty:</label>
+                                <select class="form-control col-md-6" id="sr-ship-driver-company" style="width: 100%;">
+                                    <?php 
+                                            $query_company = "SELECT DISTINCT Company FROM  Transport_User";
+                                            $rs_company = odbc_exec($conn, $query_company);
+
+                                            while (odbc_fetch_row($rs_company)) {
+                                                $company = odbc_result($rs_company, "Company");
+                                                echo "<option value='$company'>$company</option>";
+                                            }
+                                        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
                         <div class="col-md-3">
                             <div class="row" style="align-items: baseline; margin-top: 5px;">
                                 <label class="col-md-6">Họ và tên chủ xe:</label>
@@ -76,6 +98,7 @@ canvas {
                     <thead>
                         <tr>
                             <!-- <th style="white-space: nowrap;">Công ty</th> -->
+                            <th>Công ty</th>
                             <th>Họ và tên tài xế</th>
                             <th>Năm sinh</th>
                             <th>Số CMND/CCCD</th>

@@ -1,4 +1,7 @@
-<?php require("../header.php"); ?>
+<?php 
+    require("../header.php"); 
+    require('../init.php');
+?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -13,7 +16,25 @@
             <div class="row" style="margin: 30px 0 15px;">
                 <div class="col-md-12 col-xl-10">
                     <div class="row">
+                        <?php if($_SESSION['Position'] == "1") {?>
                         <div class="col-md-3">
+                            <div class="row" style="align-items: baseline; margin-top: 5px;">
+                                <label class="col-md-6">Công ty:</label>
+                                <select class="form-control col-md-6" id="sr-convey-company" style="width: 100%;">
+                                    <?php 
+                                            $query_company = "SELECT DISTINCT Company FROM  Transport_User";
+                                            $rs_company = odbc_exec($conn, $query_company);
+
+                                            while (odbc_fetch_row($rs_company)) {
+                                                $company = odbc_result($rs_company, "Company");
+                                                echo "<option value='$company'>$company</option>";
+                                            }
+                                        ?>
+                                </select>
+                            </div>
+                        </div>
+                        <?php } ?>
+                        <div class="col-md-2">
                             <div class="row" style="align-items: baseline; margin-top: 5px;">
                                 <label class="col-md-6">Biển số xe:</label>
                                 <input type="text" class="form-control col-md-6" id="sr-convey-no" style="width: 100%;">
@@ -26,7 +47,7 @@
                                     style="width: 100%;">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="row" style="align-items: baseline; margin-top: 5px;">
                                 <label class="col-md-6">Trạng thái:</label>
                                 <select class="form-control col-md-6" id="sr-convey-status" style="width: 100%;">
@@ -36,7 +57,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3" style="margin-top: 5px;">
+                        <div class="col-md-2" style="margin-top: 5px;">
                             <div class="row col-md-12">
                                 <button type='button' class='btn btn-primary' onclick='onQueryShipConvey()'>Tìm
                                     kiếm</button>
@@ -44,7 +65,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-xl-2" style="text-align-last: right;" style="margin-top: 5px;">
+                <div class="col-md-12 col-xl-2" style="text-align-last: right; margin-top: 5px;">
                     <button type="button" class="btn btn-primary" onclick="onAddShipConvey(1)">Thêm</button>
                     <button type="button" class="btn btn-success" onclick="onEditShipConvey()">Sửa</button>
                     <button type="button" class="btn btn-danger" onclick="onDeleteShipConvey()">Xóa</button>
@@ -56,6 +77,7 @@
                 <table class="table table-bordered" id="tb-ship-convey" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th style="white-space: nowrap;">Công ty</th>
                             <th style="white-space: nowrap;">Biển số xe</th>
                             <!-- <th style="white-space: nowrap;">Công ty</th> -->
                             <th style="white-space: nowrap;">Họ và tên chủ xe</th>

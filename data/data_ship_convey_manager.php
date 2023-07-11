@@ -6,15 +6,27 @@
 
     $account_id = $_SESSION['Account_ID'];
     $company = $_SESSION['Company'];
+    $position = $_SESSION['Position'];
 
     if($Action == 'queryConvey') {
+        $sr_convey_company = isset($_GET['ConveyCompany']) ? $_GET['ConveyCompany'] : "";
         $sr_convey_no = $_GET['ConveyNo'];
         $sr_convey_name = $_GET['ConveyName'];
         $sr_convey_status = $_GET['ConveyStatus'];
 
         $where = " 1 = 1 ";
 
-        if($company != '') {
+        // if($company != '') {
+        //     $where .= " AND Company = '$company'";
+        // } else {
+        //     $where .= " AND Company = '$sr_convey_company'";
+        // }
+
+        if($position == '1') {
+            if($sr_convey_company != '') {
+                $where .= " AND Company = '$sr_convey_company'";
+            }
+        } else {
             $where .= " AND Company = '$company'";
         }
 
@@ -32,7 +44,7 @@
 
         $query_convey = "SELECT * FROM Ship_Convey_Web WHERE".$where;
         $rs_convey = odbc_exec($conn, $query_convey);
-
+        // echo $query_convey;
         $item = array();
 
         while(@$row = odbc_fetch_object($rs_convey)) {

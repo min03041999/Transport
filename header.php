@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["Name"])) {
-    header('Location: http://192.168.18.2:8088/transport/login.php');
+    header('Location: http://b2b.lacty.com.vn/transport/login.php');
 }
 ?>
 <!DOCTYPE html>
@@ -16,7 +16,7 @@ if (!isset($_SESSION["Name"])) {
     <meta name="author" content="">
 
     <title>Transport - Dashboard</title>
-    <base href="http://192.168.18.2:8088/transport/">
+    <base href="http://b2b.lacty.com.vn/transport/">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
