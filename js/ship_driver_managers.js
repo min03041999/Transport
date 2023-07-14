@@ -183,6 +183,9 @@ function onAddShipDriver(check) {
       sig: {
         required: true,
       },
+      // Remark: {
+      //   validateName: true,
+      // },
     },
     messages: {
       driver_no: {
@@ -303,72 +306,86 @@ function draw() {
 function onEditShipDriver() {
   let table = $("#tb_ship_driver_manager").DataTable();
   let row = getSelect(table);
-  if (row) {
-    $("#header").html("Sửa thông tin tài xế");
-    $("#modal_add_driver").modal("show");
-    $("#edit_id").val(row["Driver_No"]);
-    $("#driver_no").val(row["Driver_No"]);
-    $("#driver_name").val(row["Driver_Name"]);
-    $("#year_birth").val(row["Year_of_Birth"]);
-    $("#driver_address").val(row["Driver_Address"]);
-    $("#hand_phone").val(row["Hand_Phone"]);
-    $("#select_type_indentity").val(row["Type_Driver"]);
-    $("#remark").val(row["Remark"]);
-    $("#driver_company").val(row["Company"]);
-    $("#hidden_ship").val(row["driver_no"]);
-    let signature = row["Signature"] + row["Signature1"] + row["Signature2"];
-    $("#sig").val(signature);
-    draw();
-    onAddShipDriver(2);
-  } else {
+  if (row.Driver_Status == "Dropped") {
     Toast.fire({
       icon: "error",
-      title: "Vui lòng chọn dữ liệu !",
+      title: "Dữ liệu này đã được ngưng hoạt động!",
     });
+  } else {
+    if (row) {
+      $("#header").html("Sửa thông tin tài xế");
+      $("#modal_add_driver").modal("show");
+      $("#edit_id").val(row["Driver_No"]);
+      $("#driver_no").val(row["Driver_No"]);
+      $("#driver_name").val(row["Driver_Name"]);
+      $("#year_birth").val(row["Year_of_Birth"]);
+      $("#driver_address").val(row["Driver_Address"]);
+      $("#hand_phone").val(row["Hand_Phone"]);
+      $("#select_type_indentity").val(row["Type_Driver"]);
+      $("#remark").val(row["Remark"]);
+      $("#driver_company").val(row["Company"]);
+      $("#hidden_ship").val(row["driver_no"]);
+      let signature = row["Signature"] + row["Signature1"] + row["Signature2"];
+      $("#sig").val(signature);
+      draw();
+      onAddShipDriver(2);
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Vui lòng chọn dữ liệu !",
+      });
+    }
   }
 }
 
 function onDeleteShipDriver() {
   let table = $("#tb_ship_driver_manager").DataTable();
   let row = getSelect(table);
-  if (row) {
-    swalWithBootstrapButtons
-      .fire({
-        title: "Bạn có chắc chắn không?",
-        text: "Dữ liệu bị xóa sẽ không thể khôi phục!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Vâng, hãy xóa nó!",
-        cancelButtonText: "Không, trở lại!",
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          $.ajax({
-            url: "data/data_ship_driver_manager.php?action=del_driver",
-            data: { del_id: row["Driver_No"] },
-            type: "POST",
-            success: (res) => {
-              response = JSON.parse(res);
-              if (response.status == true) {
-                swalWithBootstrapButtons.fire(
-                  "Xóa thành công!",
-                  "Dữ liệu bạn chọn đã được xóa.",
-                  "thành công"
-                );
-                $("#tb_ship_driver_manager").dataTable()._fnAjaxUpdate();
-              } else {
-                Swal.fire("Cancelled!", response.msg, "error");
-              }
-            },
-          });
-        }
-      });
-  } else {
+  if (row.Driver_Status == "Dropped") {
     Toast.fire({
       icon: "error",
-      title: "Vui lòng chọn dữ liệu cần xóa!",
+      title: "Dữ liệu này đã được ngưng hoạt động!",
     });
+  } else {
+    if (row) {
+      swalWithBootstrapButtons
+        .fire({
+          title: "Bạn có chắc chắn không?",
+          text: "Dữ liệu bị xóa sẽ không thể khôi phục!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Vâng, hãy xóa nó!",
+          cancelButtonText: "Không, trở lại!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "data/data_ship_driver_manager.php?action=del_driver",
+              data: { del_id: row["Driver_No"] },
+              type: "POST",
+              success: (res) => {
+                response = JSON.parse(res);
+                if (response.status == true) {
+                  swalWithBootstrapButtons.fire(
+                    "Xóa thành công!",
+                    "Dữ liệu bạn chọn đã được xóa.",
+                    "thành công"
+                  );
+                  $("#tb_ship_driver_manager").dataTable()._fnAjaxUpdate();
+                } else {
+                  Swal.fire("Cancelled!", response.msg, "error");
+                }
+              },
+            });
+          }
+        });
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Vui lòng chọn dữ liệu cần xóa!",
+      });
+    }
   }
 }
 

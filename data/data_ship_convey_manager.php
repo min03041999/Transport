@@ -103,7 +103,7 @@
                                     '$hand_phone',
                                     '$type_convey',
                                     'Active',
-                                    '$remark',
+                                    N'$remark',
                                     '1',
                                     '$company',
                                     '$account_id',
@@ -149,7 +149,7 @@
                 Owner_Address = '$owner_address',
                 Hand_Phone = '$hand_phone',
                 Type_Convey = '$type_convey',
-                Remark = '$remark',
+                Remark = N'$remark',
                 -- Company = '$company',
                 UserID = '$account_id',
                 UserDate = getdate()
@@ -176,7 +176,7 @@
                     Owner_Address = '$owner_address',
                     Hand_Phone = '$hand_phone',
                     Type_Convey = '$type_convey',
-                    Remark = '$remark',
+                    Remark = N'$remark',
                     -- Company = '$company',
                     UserID = '$account_id',
                     UserDate = getdate()

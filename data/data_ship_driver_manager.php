@@ -99,7 +99,7 @@
                                 '$driver_address',
                                 '$hand_phone',
                                 'Active',
-                                '$remark',
+                                N'$remark',
                                 '1',
                                 '$companyss',
                                 '$signature',
@@ -152,7 +152,7 @@
                     Driver_Address = '$driver_address',
                     Hand_Phone = '$hand_phone',
                     Signature = '$signature',
-                    Remark = '$remark',
+                    Remark = N'$remark',
                     UserID = '$userid',
                     UserDate = getdate(),
                     Type_Driver='$type_indentity'
@@ -184,7 +184,7 @@
                         Hand_Phone = '$hand_phone',
                         Driver_Status = '$driver_status',
                         Signature = '$image_signature',
-                        Remark = '$remark',
+                        Remark = N'$remark',
                         UserID = '$userid',
                         UserDate = getdate()
                     WHERE Driver_No = '$edit_id'";

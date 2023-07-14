@@ -132,29 +132,36 @@ function printCarConvey(...item) {
 function onEditShipConvey() {
   let table = $("#tb-ship-convey").DataTable();
   let row = getSelect(table);
-  if (row) {
-    $("#header").html("Chỉnh sửa thông tin chủ xe");
-    $("#ID").val(row.Convey_No);
-    $("#Convey_No").val(row.Convey_No);
-    $("#Type_Identify").val(row.Type_Identify);
-    $("#Identify_No").val(row.Identify_No);
-    $("#Owner_Name").val(row.Owner_Name);
-    $("#Year_of_Birth").val(row.Year_of_Birth);
-    $("#Owner_Address").val(row.Owner_Address);
-    $("#Hand_Phone").val(row.Hand_Phone);
-    $("#Type_Convey").val(row.Type_Convey);
-    // $("#Convey_Status").val(row.Convey_Status);
-    // $("#Mooc").val(row.Mooc);
-    // $("#LinkGPS").val(row.LinkGPS);
-    $("#Remark").val(row.Remark);
-
-    $("#modal_add_convey").modal("show");
-    onAddShipConvey(2);
-  } else {
+  if (row.Convey_Status == "Dropped") {
     Toast.fire({
       icon: "error",
-      title: "Vui lòng chọn dữ liệu cần chỉnh sửa!",
+      title: "Dữ liệu này đã được ngưng hoạt động!",
     });
+  } else {
+    if (row) {
+      $("#header").html("Chỉnh sửa thông tin chủ xe");
+      $("#ID").val(row.Convey_No);
+      $("#Convey_No").val(row.Convey_No);
+      $("#Type_Identify").val(row.Type_Identify);
+      $("#Identify_No").val(row.Identify_No);
+      $("#Owner_Name").val(row.Owner_Name);
+      $("#Year_of_Birth").val(row.Year_of_Birth);
+      $("#Owner_Address").val(row.Owner_Address);
+      $("#Hand_Phone").val(row.Hand_Phone);
+      $("#Type_Convey").val(row.Type_Convey);
+      // $("#Convey_Status").val(row.Convey_Status);
+      // $("#Mooc").val(row.Mooc);
+      // $("#LinkGPS").val(row.LinkGPS);
+      $("#Remark").val(row.Remark);
+
+      $("#modal_add_convey").modal("show");
+      onAddShipConvey(2);
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Vui lòng chọn dữ liệu cần chỉnh sửa!",
+      });
+    }
   }
 }
 
@@ -198,6 +205,9 @@ function onAddShipConvey(check) {
       Type_Convey: {
         required: true,
       },
+      // Remark: {
+      //   validateName: true,
+      // },
     },
     messages: {
       Convey_No: {
@@ -297,43 +307,51 @@ function onAddShipConvey(check) {
 function onDeleteShipConvey() {
   let table = $("#tb-ship-convey").DataTable();
   let row = getSelect(table);
-  if (row) {
-    swalWithBootstrapButtons
-      .fire({
-        title: "Bạn có chắc chắn không?",
-        text: "Dữ liệu bị xóa sẽ không thể khôi phục!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Vâng, hãy xóa nó!",
-        cancelButtonText: "Không, trở lại!",
-        reverseButtons: true,
-      })
-      .then((result) => {
-        if (result.isConfirmed) {
-          $.ajax({
-            url: "data/data_ship_convey_manager.php?action=deleteConvey",
-            data: { Convey_No: row["Convey_No"] },
-            type: "POST",
-            success: (res) => {
-              response = JSON.parse(res);
-              if (response.status == true) {
-                swalWithBootstrapButtons.fire(
-                  "Xóa thành công!",
-                  "Dữ liệu bạn chọn đã được xóa.",
-                  "thành công"
-                );
-                $("#tb-ship-convey").dataTable()._fnAjaxUpdate();
-              } else {
-                Swal.fire("Cancelled!", response.msg, "error");
-              }
-            },
-          });
-        }
-      });
-  } else {
+  console.log(row);
+  if (row.Convey_Status == "Dropped") {
     Toast.fire({
       icon: "error",
-      title: "Vui lòng chọn dữ liệu cần xóa!",
+      title: "Dữ liệu này đã được ngưng hoạt động!",
     });
+  } else {
+    if (row) {
+      swalWithBootstrapButtons
+        .fire({
+          title: "Bạn có chắc chắn không?",
+          text: "Dữ liệu bị xóa sẽ không thể khôi phục!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Vâng, hãy xóa nó!",
+          cancelButtonText: "Không, trở lại!",
+          reverseButtons: true,
+        })
+        .then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: "data/data_ship_convey_manager.php?action=deleteConvey",
+              data: { Convey_No: row["Convey_No"] },
+              type: "POST",
+              success: (res) => {
+                response = JSON.parse(res);
+                if (response.status == true) {
+                  swalWithBootstrapButtons.fire(
+                    "Xóa thành công!",
+                    "Dữ liệu bạn chọn đã được xóa.",
+                    "thành công"
+                  );
+                  $("#tb-ship-convey").dataTable()._fnAjaxUpdate();
+                } else {
+                  Swal.fire("Cancelled!", response.msg, "error");
+                }
+              },
+            });
+          }
+        });
+    } else {
+      Toast.fire({
+        icon: "error",
+        title: "Vui lòng chọn dữ liệu cần xóa!",
+      });
+    }
   }
 }

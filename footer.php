@@ -74,7 +74,7 @@
 
 <script src="js/user_managers.js"></script>
 <script src="js/ship_convey_managerss.js"></script>
-<script src="js/ship_driver_manager.js"></script>
+<script src="js/ship_driver_managers.js"></script>
 </body>
 
 </html>
