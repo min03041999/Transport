@@ -56,7 +56,7 @@ if (!isset($_SESSION["Name"])) {
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Transport
+                Vận chuyển
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -64,13 +64,13 @@ if (!isset($_SESSION["Name"])) {
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-truck"></i>
-                    <span>Transport</span>
+                    <span>Vận chuyển</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Transport </h6>
-                        <a class="collapse-item" href="./layout/ship_convey_manager.php">Ship Convey</a>
-                        <a class="collapse-item" href="./layout/ship_driver_manager.php">Ship Driver</a>
+                        <h6 class="collapse-header">Vận chuyển </h6>
+                        <a class="collapse-item" href="./layout/ship_convey_manager.php">Quản lý chủ phương tiện</a>
+                        <a class="collapse-item" href="./layout/ship_driver_manager.php">Quản lý tài xế</a>
                     </div>
                 </div>
             </li>
@@ -81,7 +81,7 @@ if (!isset($_SESSION["Name"])) {
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                User
+                Quản trị viên
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -89,12 +89,12 @@ if (!isset($_SESSION["Name"])) {
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                     aria-expanded="true" aria-controls="collapsePages">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>User</span>
+                    <span>Quản trị viên</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">User</h6>
-                        <a class="collapse-item" href="./layout/user_manager.php">User</a>
+                        <h6 class="collapse-header">Quản trị viên</h6>
+                        <a class="collapse-item" href="./layout/user_manager.php">Quản trị viên</a>
                     </div>
                 </div>
             </li>

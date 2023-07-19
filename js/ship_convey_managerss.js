@@ -355,3 +355,51 @@ function onDeleteShipConvey() {
     }
   }
 }
+
+
+ 
+$(document).ready(() => {
+  $("#import_convey").submit((e) => {
+    e.preventDefault();
+
+    var formData = new FormData();
+    formData.append("data_import", $("#file_import")[0].files[0]);
+    $.ajax({
+      url: "data/data_ship_convey_manager.php?action=importExcel",
+      type: "POST",
+      data: formData,
+      async: false,
+      success: function (data) {
+        var response = JSON.parse(data);
+        $("#tb-ship-convey").DataTable().ajax.reload();
+        if (response.length > 0) {
+          $("#modal_import_convey_errors").modal("show");
+
+          $("#tb_ship_convey_status").dataTable({
+            data: response,
+            columns: [{ data: "id" }, { data: "message" }, { data: "value" }],
+            destroy: true,
+            bPaginate: false,
+            searching: false,
+            ordering: false,
+            info: false,
+          });
+          Toast.fire({
+            icon: "warning",
+            title: "Import xong! Kiểm tra lại vài dòng!",
+          });
+        } else {
+          $("#modal_import_convey").modal("hide");
+          Toast.fire({
+            icon: "success",
+            title: "Import Thành công!",
+          });
+        }
+      },
+      cache: false,
+      contentType: false,
+      processData: false,
+    });
+  });
+});
+

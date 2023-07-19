@@ -34,14 +34,14 @@ canvas {
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Ship Driver Manager</h1>
+    <h1 class="h3 mb-2 text-gray-800">Quản lý tài xế</h1>
     <div id="qrcode"></div>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Ship Driver Manager</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Quản lý tài xế</h6>
             <div class="row" style="margin: 30px 0 15px;">
-                <div class="col-md-12 col-xl-10">
+                <div class="col-md-12 col-xl-12">
                     <div class="row">
                         <?php if($_SESSION['Position'] == "1") {?>
                         <div class="col-md-3">
@@ -72,8 +72,8 @@ canvas {
                                 <label class="col-md-6">Trạng thái:</label>
                                 <select class="form-control col-md-6" id="select_status_ship" style="width: 100%;">
                                     <option value=""></option>
-                                    <option value="Active">Active</option>
-                                    <option value="Dropped">Dropped</option>
+                                    <option value="Active">Hoạt động</option>
+                                    <option value="Dropped">Ngưng hoạt động</option>
                                 </select>
                             </div>
                         </div>
@@ -85,13 +85,17 @@ canvas {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-xl-2" style="text-align-last: right;" style="margin-top: 5px;">
+                <div class="col-md-12 col-xl-12" style="margin-top: 20px;">
                     <button type="button" class="btn btn-primary" onclick="onAddShipDriver(1)">Thêm</button>
-                    <button type="button" class="btn btn-success" onclick="onEditShipDriver()">Sửa</button>
+                    <button type="button" class="btn btn-warning" onclick="onEditShipDriver()">Sửa</button>
                     <button type="button" class="btn btn-danger" onclick="onDeleteShipDriver()">Xóa</button>
+                    <button type="button" class="btn btn-success"
+                        onclick="$('#modal_import_driver').modal('show')">Import
+                        Excel</button>
                 </div>
             </div>
         </div>
+
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="tb_ship_driver_manager" width="100%" cellspacing="0">
@@ -101,6 +105,7 @@ canvas {
                             <th>Công ty</th>
                             <th>Họ và tên tài xế</th>
                             <th>Năm sinh</th>
+                            <th>Loại giấy tờ tùy thân</th>
                             <th>Số CMND/CCCD</th>
                             <th>Địa chỉ</th>
                             <th>Điện thoại</th>
@@ -215,6 +220,73 @@ canvas {
             </div>
         </div>
     </div>
+
+
+    <!-- modal import excel -->
+    <div class="modal fade" id="modal_import_driver" tabindex="-1" role="dialog" aria-labelledby="add"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <form id="import_driver" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h4 class="modal-title" style="font-weight: bold" id="header">Import Excel</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body row">
+                        <!-- <div class='col-md-12' style="text-align-last: right;">
+                            <a href="#"
+                                onclick="window.open(window.location.origin+'/transport/data/ship_driver.xlsx')">Tải
+                                xuống file mẫu</a>
+                        </div> -->
+                        <div class='col-md-12'>
+                            <label style="font-weight: bold; font-size: 15px">Chọn file:</label>
+                            <a href="#"
+                                onclick="window.open(window.location.origin+'/transport/data/ship_drivers.xlsx')"
+                                style="float: right;">Tải
+                                xuống file mẫu</a>
+                            <input type="file"
+                                style='border-radius: 6px; width: 100%;height: calc(1.5em + 0.75rem + 7px)'
+                                id="file_import" name="file_import" class="form-control">
+                        </div>
+                        <div class='col-md-12 mt-3'>
+                            <button type="submit" id='btn-start-import' class="btn btn-primary  w-100">Import</button>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal import excel errors message -->
+    <div class="modal fade  " id="modal_import_driver_errors" tabindex="-1" role="dialog" aria-labelledby="add"
+        aria-hidden="fasle">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="font-weight: bold" id="header">Thông báo lỗi</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive ">
+                        <table class="table table-bordered" id="tb_ship_driver_status" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <!-- <th style="white-space: nowrap;">Công ty</th> -->
+                                    <th>CCCD/CMND</th>
+                                    <th>Lỗi</th>
+                                    <th>Giá trị</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Signature -->
     <div class="modal fade" id="modal_Sig" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true"

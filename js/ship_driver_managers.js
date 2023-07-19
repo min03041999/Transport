@@ -71,6 +71,10 @@ function onQuery() {
         className: "nowrap",
       },
       {
+        data: "Type_Driver",
+        className: "nowrap",
+      },
+      {
         data: "Driver_No",
         className: "nowrap",
       },
@@ -86,7 +90,7 @@ function onQuery() {
         data: function (row) {
           let signature =
             row["Signature"] + row["Signature1"] + row["Signature2"];
-          return `<img style='display:block; margin: auto; width:100px;height:100px; border: 1px solid rgb(223, 223, 223);' id='base64image' src='data:image/jpeg;base64,${signature}' />`;
+          return `<img style='cursor: pointer; display:block; margin: auto; width:100px;height:100px; border: 1px solid rgb(223, 223, 223);' id='base64image' src='data:image/jpeg;base64,${signature}' />`;
         },
       },
       // {
@@ -465,4 +469,48 @@ const uploadImage = async (event, width, height) => {
 
 $("#upload").change(function (e) {
   uploadImage(e, 300, 200); // set width and height as desired
+});
+
+$(document).ready(() => {
+  $("#import_driver").submit((e) => {
+    e.preventDefault();
+    var formData = new FormData();
+    formData.append("data_import", $("#file_import")[0].files[0]);
+    $.ajax({
+      url: "data/data_ship_driver_manager.php?action=importexcel",
+      type: "POST",
+      data: formData,
+      success: function (data) {
+        var response = JSON.parse(data);
+
+        if (response.length > 0) {
+          $("#modal_import_driver_errors").modal("show");
+
+          $("#tb_ship_driver_status").dataTable({
+            data: response,
+            columns: [{ data: "id" }, { data: "message" }, { data: "value" }],
+            destroy: true,
+            bPaginate: false,
+            searching: false,
+            ordering: false,
+            info: false,
+          });
+          Toast.fire({
+            icon: "warning",
+            title: "Import xong! Kiểm tra lại các dòng!",
+          });
+        } else {
+          $("#modal_import_driver").modal("hide");
+          Toast.fire({
+            icon: "success",
+            title: "Import thành công!",
+          });
+        }
+        $("#tb_ship_driver_manager").DataTable().ajax.reload();
+      },
+      cache: false,
+      contentType: false,
+      processData: false,
+    });
+  });
 });

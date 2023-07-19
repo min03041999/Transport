@@ -4,12 +4,12 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Users Manager</h1>
+    <h1 class="h3 mb-2 text-gray-800">Quản trị viên</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Users Manager</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Quản trị viên</h6>
             <div class="row" style="margin: 30px 0 10px;">
                 <!-- <div class="col-sm-6" style="margin-bottom: 10px;">
                     <button type='button' class='btn btn-primary' onclick='onQuery()'> Query</button>

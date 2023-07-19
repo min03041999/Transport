@@ -1,34 +1,34 @@
-<?php 
-    require("../header.php"); 
-    require('../init.php');
+<?php
+require("../header.php");
+require('../init.php');
 ?>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <h1 class="h3 mb-2 text-gray-800">Ship Convey Manager</h1>
+    <h1 class="h3 mb-2 text-gray-800">Quản lý chủ phương tiện</h1>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Ship Convey Manager</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Quản lý chủ phương tiện</h6>
             <div class="row" style="margin: 30px 0 15px;">
-                <div class="col-md-12 col-xl-10">
+                <div class="col-md-12 col-xl-12">
                     <div class="row">
-                        <?php if($_SESSION['Position'] == "1") {?>
+                        <?php if ($_SESSION['Position'] == "1") { ?>
                         <div class="col-md-3">
                             <div class="row" style="align-items: baseline; margin-top: 5px;">
                                 <label class="col-md-6">Công ty:</label>
                                 <select class="form-control col-md-6" id="sr-convey-company" style="width: 100%;">
-                                    <?php 
-                                            $query_company = "SELECT DISTINCT Company FROM  Transport_User";
-                                            $rs_company = odbc_exec($conn, $query_company);
+                                    <?php
+                                        $query_company = "SELECT DISTINCT Company FROM  Transport_User";
+                                        $rs_company = odbc_exec($conn, $query_company);
 
-                                            while (odbc_fetch_row($rs_company)) {
-                                                $company = odbc_result($rs_company, "Company");
-                                                echo "<option value='$company'>$company</option>";
-                                            }
+                                        while (odbc_fetch_row($rs_company)) {
+                                            $company = odbc_result($rs_company, "Company");
+                                            echo "<option value='$company'>$company</option>";
+                                        }
                                         ?>
                                 </select>
                             </div>
@@ -52,8 +52,8 @@
                                 <label class="col-md-6">Trạng thái:</label>
                                 <select class="form-control col-md-6" id="sr-convey-status" style="width: 100%;">
                                     <option value=""></option>
-                                    <option value="Active">Active</option>
-                                    <option value="Dropped">Dropped</option>
+                                    <option value="Active">Hoạt động</option>
+                                    <option value="Dropped">Ngưng hoạt động</option>
                                 </select>
                             </div>
                         </div>
@@ -65,10 +65,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12 col-xl-2" style="text-align-last: right; margin-top: 5px;">
+                <div class="col-md-12 col-xl-12" style="margin-top: 20px;">
                     <button type="button" class="btn btn-primary" onclick="onAddShipConvey(1)">Thêm</button>
-                    <button type="button" class="btn btn-success" onclick="onEditShipConvey()">Sửa</button>
+                    <button type="button" class="btn btn-warning" onclick="onEditShipConvey()">Sửa</button>
                     <button type="button" class="btn btn-danger" onclick="onDeleteShipConvey()">Xóa</button>
+                    <button type="button" class="btn btn-success"
+                        onclick="$('#modal_import_convey').modal('show')">Import Excel</button>
                 </div>
             </div>
         </div>
@@ -195,6 +197,73 @@
             </div>
         </div>
     </div>
+
+
+    <!-- modal import excel -->
+    <div class="modal fade" id="modal_import_convey" tabindex="-1" role="dialog" aria-labelledby="add"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <form id="import_convey" method="POST" enctype="multipart/form-data">
+                    <div class="modal-header">
+                        <h3 class="modal-title" style="font-weight: bold" id="header">Import Excel</h3>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body row">
+                        <!-- <div class='col-md-12' style="text-align-last: right;">
+                            <a href="#"
+                                onclick="window.open(window.location.origin+'/transport/data/ship_driver.xlsx')">Tải
+                                xuống file mẫu</a>
+                        </div> -->
+                        <div class='col-md-12'>
+                            <label style="font-weight: bold; font-size: 15px">Chọn file:</label>
+                            <a href="#"
+                                onclick="window.open(window.location.origin+'/transport/data/ship_conveys.xlsx')"
+                                style="float: right;">Tải
+                                xuống file mẫu</a>
+                            <input type="file"
+                                style='border-radius: 6px; width: 100%;height: calc(1.5em + 0.75rem + 7px)'
+                                id="file_import" name="file_import" class="form-control">
+                        </div>
+                        <div class='col-md-12 mt-3'>
+                            <button type="submit" id='btn-start-import' class="btn btn-primary  w-100">Import</button>
+                        </div>
+                    </div>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                    </div> -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal import excel errors message -->
+    <div class="modal fade  " id="modal_import_convey_errors" tabindex="-1" role="dialog" aria-labelledby="add"
+        aria-hidden="fasle">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title" style="font-weight: bold" id="header">Thông báo lỗi</h6>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive ">
+                        <table class="table table-bordered" id="tb_ship_convey_status" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <!-- <th style="white-space: nowrap;">Công ty</th> -->
+                                    <th>Biển số xe</th>
+                                    <th>Lỗi</th>
+                                    <th>Giá trị</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
