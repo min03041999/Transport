@@ -281,7 +281,7 @@ if ($action == 'importexcel') {
             $typeDriverNo = $dataRow[3];
             $driverNo = $dataRow[4]; 
             $YearOfBirth = $dataRow[2];
-            if (strlen($YearOfBirth) != 4) {
+            if (strlen($YearOfBirth) != 4 && strlen($YearOfBirth) != "") {
                 $failData[] = [
                     "message" => "Ngày sinh yêu cầu 4 ký tự",
                     "value" => $YearOfBirth,
@@ -292,7 +292,7 @@ if ($action == 'importexcel') {
 
             //validate driver no
            
-            if (strlen($driverNo) != 12 && strlen($driverNo) != 9) {
+            if (strlen($driverNo) != 12 && strlen($driverNo) != 9 && strlen($driverNo) != "") {
                 $failData[] = [
                     "message" => "Yêu cầu CMND 9 ký tự, CCCD 12 ký tự",
                     "value" => $driverNo,
@@ -376,8 +376,6 @@ if ($action == 'importexcel') {
         }
     }
     echo json_encode($failData);
-
-
 }
 
 function vn_to_str($str)

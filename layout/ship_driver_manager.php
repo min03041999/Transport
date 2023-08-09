@@ -240,9 +240,7 @@ canvas {
                         </div> -->
                         <div class='col-md-12'>
                             <label style="font-weight: bold; font-size: 15px">Chọn file:</label>
-                            <a href="#"
-                                onclick="window.open(window.location.origin+'/transport/data/ship_drivers.xlsx')"
-                                style="float: right;">Tải
+                            <a href="data/ship_drivers.xlsx" style="float: right;">Tải
                                 xuống file mẫu</a>
                             <input type="file"
                                 style='border-radius: 6px; width: 100%;height: calc(1.5em + 0.75rem + 7px)'
